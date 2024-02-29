@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class Lab1_CommonDivisors {
     static int gcd(int a, int b){
         if(b == 0)
             return a;
