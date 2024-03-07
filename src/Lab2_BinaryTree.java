@@ -36,22 +36,22 @@ public class Lab2_BinaryTree {
         }
     }
 
-    public static void main(String args[]) {
-        Lab2_BinaryTree tree = new Lab2_BinaryTree();
-        Node root = new Node(45);
-        System.out.println("Building Binary tree with root value: " + root.value);
-        tree.insert(root, 27);
-        tree.insert(root, 67);
-        tree.insert(root, 36);
-        tree.insert(root, 56);
-        tree.insert(root, 15);
-        tree.insert(root, 75);
-        tree.insert(root, 31);
-        tree.insert(root, 53);
-        tree.insert(root, 39);
-        tree.insert(root, 64);
-        System.out.println();
-        System.out.println("Traversing tree inorder: ");
-        tree.traverseInOrder(root);
-    }
+//    public static void main(String args[]) {
+//        Lab2_BinaryTree tree = new Lab2_BinaryTree();
+//        Node root = new Node(45);
+//        System.out.println("Building Binary tree with root value: " + root.value);
+//        tree.insert(root, 27);
+//        tree.insert(root, 67);
+//        tree.insert(root, 36);
+//        tree.insert(root, 56);
+//        tree.insert(root, 15);
+//        tree.insert(root, 75);
+//        tree.insert(root, 31);
+//        tree.insert(root, 53);
+//        tree.insert(root, 39);
+//        tree.insert(root, 64);
+//        System.out.println();
+//        System.out.println("Traversing tree inorder: ");
+//        tree.traverseInOrder(root);
+//    }
 }
