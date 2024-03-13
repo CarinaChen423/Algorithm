@@ -8,108 +8,90 @@ public class Lab3_AVLTrees {
             this.value = value;
             left = null;
             right = null;
-            height = 1;
+            height = 1; // New node is initially added at leaf
         }
     }
 
-    int height(Node node) {
-        if (node == null)
+    private int height(Node N) {
+        if (N == null)
             return 0;
-        return node.height;
+        return N.height;
     }
 
-    int getBalance(Node node) {
-        if (node == null)
+    private Node rightRotate(Node y) {
+        Node x = y.left;
+        Node T2 = x.right;
+        x.right = y;
+        y.left = T2;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        return x;
+    }
+
+    private Node leftRotate(Node x) {
+        Node y = x.right;
+        Node T2 = y.left;
+        y.left = x;
+        x.right = T2;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        return y;
+    }
+
+    private int getBalance(Node N) {
+        if (N == null)
             return 0;
-        return height(node.left) - height(node.right);
-    }
-
-    Node rotateRight(Node node) {
-        Node newRoot = node.left;
-        Node transfer = newRoot.right;
-
-        newRoot.right = node;
-        node.left = transfer;
-
-        node.height = Math.max(height(node.left), height(node.right)) + 1;
-        newRoot.height = Math.max(height(newRoot.left), height(newRoot.right)) + 1;
-
-        return newRoot;
-    }
-
-    Node rotateLeft(Node node) {
-        Node newRoot = node.right;
-        Node transfer = newRoot.left;
-
-        newRoot.left = node;
-        node.right = transfer;
-
-        node.height = Math.max(height(node.left), height(node.right)) + 1;
-        newRoot.height = Math.max(height(newRoot.left), height(newRoot.right)) + 1;
-
-        return newRoot;
+        return height(N.left) - height(N.right);
     }
 
     public Node insert(Node node, int value) {
-        if (node == null) {
+        if (node == null)
             return (new Node(value));
-        }
 
-        if (value < node.value) {
+        if (value < node.value)
             node.left = insert(node.left, value);
-            System.out.println(" Inserted " + value + " to left of " + node.value);
-        } else if (value > node.value) {
+        else if (value > node.value)
             node.right = insert(node.right, value);
-            System.out.println(" Inserted " + value + " to right of " + node.value);
-        } else {
+        else // Duplicate values not allowed
             return node;
-        }
 
         node.height = 1 + Math.max(height(node.left), height(node.right));
-
         int balance = getBalance(node);
 
-        if (balance > 1 && value < node.left.value) {
-            return rotateRight(node);
-        }
+        // Left Left Case
+        if (balance > 1 && value < node.left.value)
+            return rightRotate(node);
 
-        if (balance < -1 && value > node.right.value) {
-            return rotateLeft(node);
-        }
+        // Right Right Case
+        if (balance < -1 && value > node.right.value)
+            return leftRotate(node);
 
+        // Left Right Case
         if (balance > 1 && value > node.left.value) {
-            node.left = rotateLeft(node.left);
-            return rotateRight(node);
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
         }
 
+        // Right Left Case
         if (balance < -1 && value < node.right.value) {
-            node.right = rotateRight(node.right);
-            return rotateLeft(node);
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
         }
 
         return node;
     }
 
-    public void traverseInOrder(Node node) {
+    public void postOrderTraversal(Node node) {
         if (node != null) {
-            traverseInOrder(node.left);
-            System.out.print(" " + node.value);
-            traverseInOrder(node.right);
-        }
-    }
-
-    public void traversePostOrder(Node node) {
-        if (node != null) {
-            traversePostOrder(node.left);
-            traversePostOrder(node.right);
+            postOrderTraversal(node.left);
+            postOrderTraversal(node.right);
             System.out.print(" " + node.value);
         }
     }
-
     public static void main(String args[]) {
         Lab3_AVLTrees tree = new Lab3_AVLTrees();
-        Node root = new Node(45);
-
+        Node root = null;
+        root = tree.insert(root, 45);
         root = tree.insert(root, 27);
         root = tree.insert(root, 67);
         root = tree.insert(root, 36);
@@ -121,18 +103,15 @@ public class Lab3_AVLTrees {
         root = tree.insert(root, 39);
         root = tree.insert(root, 64);
 
-        System.out.println("Traversing tree inorder: ");
-        tree.traverseInOrder(root);
+        System.out.println("Postorder traversal before adding unbalanced nodes:");
+        tree.postOrderTraversal(root);
 
         root = tree.insert(root, 32);
         root = tree.insert(root, 42);
         root = tree.insert(root, 52);
         root = tree.insert(root, 62);
 
-        System.out.println("Traversing tree inorder after adding elements: ");
-        tree.traverseInOrder(root);
-
-        System.out.println("Traversing tree postorder after adding elements: ");
-        tree.traversePostOrder(root);
+        System.out.println("\nPostorder traversal after adding nodes and rebalancing:");
+        tree.postOrderTraversal(root);
     }
 }
