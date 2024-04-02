@@ -1,32 +1,61 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
+
 public class Lab6_BubbleSort {
-    static int bubbleSort(int[] arr){
+
+    // Bubble Sort Method with comparison and swap count
+    public static int[] bubbleSort(int[] arr) {
         int n = arr.length;
-        int temp;
-        int count = 0;
-        for(int i=0; i < n; i++){
-            for(int j =1; j < (n-i); j++){
-                if(arr[j-1] > arr[j]){
-                    temp = arr[j-1];
-                    arr[j-1] = arr[j];
-                    arr[j] = temp;
-                    count++;
+        int comparisonCount = 0;
+        int swapCount = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                // Count the comparison
+                comparisonCount++;
+
+                if (arr[j] > arr[j + 1]) {
+                    // Swap arr[j] and arr[j+1]
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+
+                    // Count the swap
+                    swapCount++;
                 }
             }
         }
-        return count;
+
+        System.out.println("Comparisons: " + comparisonCount);
+        System.out.println("Swaps: " + swapCount);
+        return arr;
     }
 
-    public static void main(String[] args){
-        int arr[] = {3,60,35,2,45,320,5};
-        System.out.println("Array before bubble sort: ");
-        for(int i= 0; i < arr.length; i++){
-            System.out.println(arr[i] + " ");
-        }
-        System.out.println();
-        bubbleSort(arr);
-        System.out.println("Array after bubble sort: ");
-        for(int i=0;i < arr.length; i++){
-            System.out.println(arr[i] + " ");
-        }
+    // Main method to test the bubble sort with different types of arrays
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        // Create and sort an array of 50 random elements
+        int[] randomArray = random.ints(50, 0, 100).toArray();
+        System.out.println("Random Array: " + Arrays.toString(randomArray));
+        bubbleSort(randomArray.clone());
+
+        // Create and sort an array of 50 sorted elements
+        int[] sortedArray = Arrays.stream(randomArray).sorted().toArray();
+        System.out.println("Sorted Array: " + Arrays.toString(sortedArray));
+        bubbleSort(sortedArray.clone());
+
+        // Create and sort an array of 50 elements sorted in reverse order
+        int[] reverseSortedArray = Arrays.stream(sortedArray).boxed()
+                .sorted(Collections.reverseOrder())
+                .mapToInt(Integer::intValue)
+                .toArray();
+        System.out.println("Reverse Sorted Array: " + Arrays.toString(reverseSortedArray));
+        bubbleSort(reverseSortedArray.clone());
     }
 }
+//Conclusion:
+//For the array of 50 random elements, the number of comparisons will be consistent because it depends on the size of the array, but the number of swaps will vary depending on the initial order of the elements.
+//For the array of 50 sorted elements, the number of comparisons will remain the same as in the previous case, but the number of swaps will be minimal (possibly zero) because the array is already sorted.
+//For the array of 50 elements sorted in reverse order, both the number of comparisons and the number of swaps will be maximal since every element will need to be moved to its correct position.

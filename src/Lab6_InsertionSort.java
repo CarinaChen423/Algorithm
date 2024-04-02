@@ -58,7 +58,7 @@ public class Lab6_InsertionSort {
         System.out.println("Number of comparisons in reverse sorted array: " + insertionSort.getComparisonCount());
         System.out.println("Number of swaps in reverse sorted array: " + insertionSort.getSwapCount());
     }
-
+//Conclusion:
     //1. For a random array, the number of comparisons and swaps can vary but are likely to be high.
     //2. For a sorted array, the number of comparisons is maximum while the number of swaps is minimum (0), as the elements are already in order.
     //3. For a reverse sorted array, both the number of comparisons and swaps are maximum, as every element needs to be moved to its correct position.
